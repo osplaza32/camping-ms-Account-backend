@@ -1,0 +1,95 @@
+// //
+// // this project is the 2.0 of my old iot project https://github.com/osplaza32/Blassdort/ ms and unicorns, no legacy or dragons
+// //
+
+syntax = "proto3";
+
+package entity.v1;
+option php_namespace = "Entity\\\\V1";
+option csharp_namespace = "Entity.V1";
+option go_package = "entityv1";
+option java_multiple_files = true;
+option java_outer_classname = "EntityserviceApiProto";
+option java_package = "com.entity.v1";
+option objc_class_prefix = "EXX";
+
+
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+      title: "Companies API entity v1";
+      version: "1.0";
+      contact: {
+        name: "The test blastdoor";
+        url: "https://github.com/osplaza32";
+        email: "oscarent2@gmail.com";
+      };
+    };
+    host: "127.0.0.1:8080";
+    schemes: HTTP;
+    consumes: "application/json";
+    produces: "application/json";
+};
+// Algo.
+service EntityserviceAPI {
+    //Doc.
+      rpc Entity(EntityRequest) returns (EntityResponse) {
+          option (google.api.http) = {
+      post: "/v1/entity"
+      body: "*"
+    };
+  };
+  // Doc.
+  rpc GetEntity(GetEntityRequest) returns (GetEntityResponse) {
+    option (google.api.http) = {
+    get: "/v1/entity/{value}"
+ };
+};
+}
+// Algo.
+message GetEntityRequest {
+    string value = 1;
+
+}
+// Algo.
+message GetEntityResponse {
+    bool my_bool = 1;
+    string code=3;
+    oneof example_oneof {
+        string descerror = 4;
+        Companyinfo companyinfo = 5;
+    }
+
+}
+// Algo.
+message EntityRequest {
+    string value = 1;
+    Companyinfo companyinfo = 2;
+
+}
+// Algo.
+message EntityResponse {
+    bool my_bool = 1;
+    string status = 2;
+    string code=3;
+     }
+
+// Algo.
+message Companyinfo {
+    string name = 1;
+    string presidents = 2;
+    repeated Ocupation ocupation = 3;
+}
+// Algo.
+message Ocupation{
+    string rubro =1;
+    int32 workers = 2;
+    repeated Departamento dpto = 4;
+
+}
+// Algo.
+message Departamento{
+    string name =1;
+
+}

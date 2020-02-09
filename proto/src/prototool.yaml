@@ -1,0 +1,136 @@
+# Paths to exclude when searching for Protobuf files.
+# These can either be file or directory names.
+# If there is a directory name, that directory and all sub-directories will be excluded.
+excludes:
+#  - path/to/b/file.proto
+
+# Protoc directives.
+protoc:
+  # The Protobuf version to use from https://github.com/protocolbuffers/protobuf/releases.
+  # By default use 3.8.0.
+  # You probably want to set this to make your builds completely reproducible.
+  version: 3.8.0
+
+  # Additional paths to include with -I to protoc.
+  # By default, the directory of the config file is included,
+  # or the current directory if there is no config file.
+  includes:
+    - ../vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
+    - ../vendor/github.com/grpc-ecosystem/grpc-gateway/
+
+
+  # If not set, compile will fail if there are unused imports.
+  # Setting this will ignore unused imports.
+#  allow_unused_imports: true
+
+# Create directives.
+create:
+  # List of mappings from relative directory to base package.
+  # This affects how packages are generated with create.
+  packages:
+    # This means that a file created "foo.proto" in the current directory will have package "bar".
+    # A file created "a/b/foo.proto" will have package "bar.a.b".
+    #- directory: .
+    #  name: bar
+    # This means that a file created "idl/code.uber/a/b/c.proto" will have package "uber.a.b".
+    - directory: .
+      name: entity.v1
+
+# Lint directives.
+lint:
+  # The lint group to use.
+  # Available groups: "uber1", "uber2", "google", "empty".
+  # The default group is the "uber1" lint group for backwards compatibility reasons,
+  # however we recommend using the "uber2" lint group.
+  # The special group "empty" has no linters, allowing you to manually specify all
+  # lint rules in lint.rules.add.
+  # Run prototool lint --list-all-lint-groups to see all available lint groups.
+  # Run prototool lint --list-lint-group GROUP to list the linters in the given lint group.
+  group: uber2
+
+  # Linter files to ignore.
+  # These can either be file or directory names.
+  # If there is a directory name, that directory and all sub-directories will be ignored.
+  ignores:
+    - id: REQUEST_RESPONSE_TYPES_ONLY_IN_FILE 
+      files:
+        - bussine/entityservice_api.proto
+#        - path/to/bar.proto
+#    - id: SYNTAX_PROTO3
+#      files:
+#        - path/to/dir
+
+  # Linter rules.
+  # Run prototool lint --list-all-linters to see all available linters.
+  # Run prototool lint --list-linters to see the currently configured linters.
+#  rules:
+
+    # The specific linters to add.
+#    add:
+#      - ENUM_NAMES_CAMEL_CASE
+#      - ENUM_NAMES_CAPITALIZED
+
+    # The specific linters to remove.
+#    remove:
+#      - ENUM_NAMES_CAMEL_CASE
+
+  # The path to the file header or the file header content for all Protobuf files.
+  # If either path or content is set and the FILE_HEADER linter is turned on,
+  # files will be checked to begin with the given header, and format --fix
+  # will place this header before the syntax declaration. Note that
+  # format --fix will delete anything before the syntax declaration
+  # if this is set.
+  #
+  # Set path to use a file's contents for the header. Path must be relative.
+  # Set content to directly specify the header.
+  # **Both path and content cannot be set at the same time. They are only done
+  # so here for example purposes.**
+  #
+  # If is_commented is set, this file is assumed to already have comments
+  # and will be added directly. If is_commented is not set, "// " will be
+  # added before every line.
+  file_header:
+#    path: path/to/protobuf_file_header.txt
+    content: |
+      //
+      // this project is the 2.0 of my old iot project https://github.com/osplaza32/Blassdort/ ms and unicorns, no legacy or dragons
+      //
+#    is_commented: true
+  # Override the default java_package file option prefix of "com".
+  # If this is set, this will affect lint, create, and format --fix to use.
+  # this prefix instead of "com".
+#  java_package_prefix: au.com
+
+# Breaking change detector directives.
+#break:
+  # Include beta packages in breaking change detection.
+  # Beta packages have the form "foo.bar.vMAJORbetaBETA" where MAJOR > 0 and BETA > 0.
+  # By default, beta packages are ignored.
+  #include_beta: true
+  # Allow stable packages to depend on beta packages.
+  # By default, the breaking change detector will error if a stable package
+  # depends on a breaking package.
+  # If include_beta is true, this is implicitly set.
+  #allow_beta_deps: true
+
+# Code generation directives.
+generate:
+  # Options that will apply to all plugins of type go and gogo.
+  go_options:
+    # The base import path. This should be the go path of the prototool.yaml file.
+    # This is required if you have any go plugins.
+    import_path: ../../gen
+  plugins:
+    - name: go
+      type: go
+      flags: plugins=grpc
+      output: ../../gen
+
+    - name: grpc-gateway
+      type: go
+      output: ../../gen
+
+    - name: swagger
+      type: go
+      output: ../../gen
+

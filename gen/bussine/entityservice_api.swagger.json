@@ -1,0 +1,171 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Companies API entity v1",
+    "version": "1.0",
+    "contact": {
+      "name": "The test blastdoor",
+      "url": "https://github.com/osplaza32",
+      "email": "oscarent2@gmail.com"
+    }
+  },
+  "host": "127.0.0.1:8080",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/entity": {
+      "post": {
+        "summary": "Doc.",
+        "operationId": "Entity",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EntityResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1EntityRequest"
+            }
+          }
+        ],
+        "tags": [
+          "EntityserviceAPI"
+        ]
+      }
+    },
+    "/v1/entity/{value}": {
+      "get": {
+        "summary": "Doc.",
+        "operationId": "GetEntity",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetEntityResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "EntityserviceAPI"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "v1Companyinfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "presidents": {
+          "type": "string"
+        },
+        "ocupation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Ocupation"
+          }
+        }
+      },
+      "description": "Algo."
+    },
+    "v1Departamento": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "description": "Algo."
+    },
+    "v1EntityRequest": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "companyinfo": {
+          "$ref": "#/definitions/v1Companyinfo"
+        }
+      },
+      "description": "Algo."
+    },
+    "v1EntityResponse": {
+      "type": "object",
+      "properties": {
+        "my_bool": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "status": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "description": "Algo."
+    },
+    "v1GetEntityResponse": {
+      "type": "object",
+      "properties": {
+        "my_bool": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "code": {
+          "type": "string"
+        },
+        "descerror": {
+          "type": "string"
+        },
+        "companyinfo": {
+          "$ref": "#/definitions/v1Companyinfo"
+        }
+      },
+      "description": "Algo."
+    },
+    "v1Ocupation": {
+      "type": "object",
+      "properties": {
+        "rubro": {
+          "type": "string"
+        },
+        "workers": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "dpto": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Departamento"
+          }
+        }
+      },
+      "description": "Algo."
+    }
+  }
+}

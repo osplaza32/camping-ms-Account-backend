@@ -1,0 +1,11 @@
+version: '3.6'
+
+services:
+  grpc-microservicio:
+    container_name: docker-playground-ms-grpc
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+      - "50050:50051"
